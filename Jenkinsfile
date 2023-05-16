@@ -2,8 +2,8 @@ pipeline {
     agent any
     
     environment{
-        def imageTag
-        def commitCode
+        imageTag = ""
+        commitCode = ""
     }
     stages {
         stage('Obtener rel Tag'){
