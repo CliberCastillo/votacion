@@ -29,7 +29,7 @@ pipeline {
                 }  
             }  
         }
-        stage('Listado de Contenedores') {
+        stage('Listado de Contenedores Final') {
             steps{
                 sh 'docker image ls'
             }
