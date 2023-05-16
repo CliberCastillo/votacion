@@ -1,7 +1,7 @@
 pipeline {
     agent any
     
-    enviroment{
+    environment{
         def imageTag
         def commitCode
     }
