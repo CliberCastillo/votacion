@@ -22,13 +22,13 @@ pipeline {
         stage('Docker Build'){
             steps{
                 script{
-                    sh 'docker build -t ${imageTag} .'
+                    sh "docker build -t ${imageTag} ."
                 }
             }
         }
-        stege('Docker Run'){
+        stage('Docker Run'){
             steps{
-                sh 'docker run -d -p 8080:80 --name votacion-${commitCode} ${imageTag}'
+                sh "docker run -d -p 8080:80 --name votacion-${commitCode} ${imageTag}"
             }
         }
         /*stage('dotnet version') {
