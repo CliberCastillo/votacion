@@ -20,7 +20,7 @@ pipeline {
             }
         }
         stage('Docker Build & Push') {
-            teps {
+            steps {
                 script {  
                     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
                         def appVotacion = docker.build("${imageTag}", ".")
