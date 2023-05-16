@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Docker Run'){
             steps{
-                sh "docker run -d -p 8080:80 --name votacion-${commitCode} ${imageTag}"
+                sh "docker run -d -p 8092:80 --name votacion-${commitCode} ${imageTag}"
             }
         }
         /*stage('dotnet version') {
