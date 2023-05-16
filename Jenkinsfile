@@ -6,7 +6,7 @@ pipeline {
         commitCode = ""
     }
     stages {
-        stage('Obtener rel Tag'){
+        stage('Obtener el Tag'){
             steps{
                 script{
                     commitCode = sh(returnStdout: true, script: 'git log --pretty=format:%h -n 1').trim()
@@ -14,16 +14,29 @@ pipeline {
                 }
             }
         }
-        stage('Mostrar los contenedores corriendo') {
+        stage('Listado de Contenedores') {
             steps {
-                sh 'docker container ls'
+                sh 'docker image ls'
             }
         }
-        stage('Docker Build'){
+        stage('Docker Build & Push') {
+            teps {
+                script {  
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
+                        def appVotacion = docker.build("${imageTag}", ".")
+                        appVotacion.push()
+                    }
+                }  
+            }  
+        }
+        stage('Listado de Contenedores') {
+            steps {
+                sh 'docker image ls'
+            }
+        }
+        /*stage('Docker Build'){
             steps{
-                script{
-                    sh "docker build -t ${imageTag} ."
-                }
+                sh "docker build -t ${imageTag} ."
             }
         }
         stage('Docker Run'){
@@ -31,7 +44,7 @@ pipeline {
                 sh "docker run -d -p 8092:80 --name votacion-${commitCode} ${imageTag}"
             }
         }
-        /*stage('dotnet version') {
+        stage('dotnet version') {
             steps {
                 script {
                     def contenedorTest = docker.image('mcr.microsoft.com/dotnet/sdk:7.0')
