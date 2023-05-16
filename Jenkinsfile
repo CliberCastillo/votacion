@@ -15,13 +15,13 @@ pipeline {
             }
         }
         stage('Listado de Contenedores') {
-            steps {
+            steps{
                 sh 'docker image ls'
             }
         }
         stage('Docker Build & Push') {
-            steps {
-                script {  
+            steps{
+                script{  
                     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
                         def appVotacion = docker.build("${imageTag}", ".")
                         appVotacion.push()
@@ -30,7 +30,7 @@ pipeline {
             }  
         }
         stage('Listado de Contenedores') {
-            steps {
+            steps{
                 sh 'docker image ls'
             }
         }
