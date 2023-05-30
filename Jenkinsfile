@@ -29,11 +29,29 @@ pipeline {
                 }  
             }  
         }
+        stages {
+            stage('Build and Push Docker Image') {
+                steps {
+                    script {
+                        def awsAccountId = 'tu-ID-de-cuenta-de-AWS'
+                        def awsRegion = 'tu-región-de-AWS'
+                        def ecrRepository = 'nombre-de-tu-repositorio-ECR'
+                        def imageTag = 'etiqueta-de-la-imagen'
+                    
+                        // Iniciar sesión en ECR utilizando las variables de entorno
+                        ecrLogin = sh(returnStdout: true, script: "aws ecr get-login-password --region ${env.AWS_REGION} | docker login --username AWS --password-stdin ${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com")
+                        // Subir la imagen a ECR
+                        sh "docker push ${awsAccountId}.dkr.ecr.${awsRegion}.amazonaws.com/${imageTag}"
+                    }
+                }
+            }
+        }
         stage('Listado de Contenedores Final') {
             steps{
                 sh 'docker image ls'
             }
         }
+        
         /*stage('Docker Build'){
             steps{
                 sh "docker build -t ${imageTag} ."
